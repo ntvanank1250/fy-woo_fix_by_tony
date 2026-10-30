@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+# Virtualenv
+venv/
+.venv/
+env/
+minifyenv/
+tutorial-env/
+test_fastapi/bin/
+test_fastapi/lib/
+test_fastapi/include/
+test_fastapi/lib64
+test-fastapi/bin/
+test-fastapi/lib/
+test-fastapi/include/
+test-fastapi/lib64
+pyvenv.cfg
+# Secrets
+.env
+# IDE
+.vscode/
+.idea/

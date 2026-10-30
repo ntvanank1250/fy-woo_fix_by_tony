@@ -2997,7 +2997,7 @@ class LeCartWoocommerce(LeCartWordpress):
         try:
             vr_ids = duplicate_field_value_from_list(products_ext_rel['data']['wpml_variants_lang'], 'element_id')
             all_product_ids = self.list_to_in_condition(list(set(pro_child_ids + product_ids + vr_ids)))
-        except:
+        except Exception:
             all_product_ids = self.list_to_in_condition(list(set(pro_child_ids + product_ids)))
         product_ext_rel_fourth_queries = {
             'post_meta': {
@@ -3586,7 +3586,7 @@ class LeCartWoocommerce(LeCartWordpress):
             all_variants_default_lang = [variant for variant in products_ext['data']['wpml_variants_lang']
                                          if variant['element_id'] in vr_ids
                                          and variant['language_code'] == self._notice['src']['language_default']]
-        except:
+        except Exception:
             all_variants_default_lang = get_list_from_list_by_field(products_ext['data']['post_variant'], 'post_parent', product['ID'])
         all_child = dict()
         child_attributes = dict()
@@ -3596,7 +3596,7 @@ class LeCartWoocommerce(LeCartWordpress):
                 try:
                     variant_trid_lang = get_row_value_from_list_by_field(products_ext['data']['wpml_variants_lang'], 'element_id', product_child['ID'], 'trid')
                     variant_lang = get_list_from_list_by_field(products_ext['data']['wpml_variants_lang'],'trid', variant_trid_lang)
-                except:
+                except Exception:
                     variant_lang = all_variants_default_lang
                 # lang_default = self._notice['src']['language_default']
 
@@ -3653,7 +3653,7 @@ class LeCartWoocommerce(LeCartWordpress):
                     child_product_language_data['short_description'] = variant['post_excerpt']
                     try:
                         language_id = variant['language_code']
-                    except:
+                    except Exception:
                         language_id = self._notice[self.get_type()]['language_default']
                     child_data['languages'][language_id] = copy.deepcopy(child_product_language_data)
 
@@ -6725,7 +6725,7 @@ class LeCartWoocommerce(LeCartWordpress):
             currency = "USD"
         try:
             countries_alpha_3 = json_decode(self.COUNTRIES_3)
-        except:
+        except Exception:
             countries_alpha_3 = {}
         billing_country_code = get_value_by_key_in_dict(billing_address['country'], 'country_code',
                                                         '') if billing_address and billing_address['country'] else ''
@@ -8211,7 +8211,7 @@ class LeCartWoocommerce(LeCartWordpress):
             if timestamp:
                 return timestamp
             return to_int(time.time())
-        except:
+        except Exception:
             return to_int(time.time())
 
     def get_map_field_by_src(self, map_type=None, id_src=None, code_src=None, lang=None, field='id_desc'):

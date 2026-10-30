@@ -38,8 +38,8 @@ class LeCartShopify(LeBasecart):
 
 	def get_api_info(self):
 		return {
-			# "api_key": "API Key",
-			'password': "API Password"
+			"api_key": os.environ.get("SHOPIFY_API_KEY", ""),
+			'password': os.environ.get("SHOPIFY_PASSWORD", "")
 		}
 
 
@@ -52,7 +52,7 @@ class LeCartShopify(LeBasecart):
 			shop = json_decode(api_shop)
 			if 'errors' in shop:
 				return response_api('Shopify API Password is not correct!', '#src-api-error', 'Info incorrect')
-		except:
+		except Exception:
 			return response_api('Shopify API Password is not correct!', '#src-api-error', 'Info incorrect')
 		return response_success()
 
@@ -66,7 +66,7 @@ class LeCartShopify(LeBasecart):
 			shop = json_decode(api_shop)
 			if 'errors' in shop:
 				return response_api('Shopify API Password is not correct!', '#target-api-error', 'Info incorrect')
-		except:
+		except Exception:
 			return response_api('Shopify API Password is not correct!', '#target-api-error', 'Info incorrect')
 		return response_success()
 
@@ -86,7 +86,7 @@ class LeCartShopify(LeBasecart):
 				response = response_error('Shopify API Password is not correct!', '#src-api-error', 'Info incorrect')
 				response['elm'] = '#error-api'
 				return response
-		except:
+		except Exception:
 			response = response_error('Shopify API Password is not correct!', '#src-api-error', 'Info incorrect')
 			response['elm'] = '#error-api'
 			return response
@@ -151,7 +151,7 @@ class LeCartShopify(LeBasecart):
 				response = response_error('Shopify API Password is not correct!', '#target-api-error', 'Info incorrect')
 				response['elm'] = '#error-api'
 				return response
-		except:
+		except Exception:
 			response = response_error('Shopify API Password is not correct!', '#target-api-error', 'Info incorrect')
 			response['elm'] = '#error-api'
 			return response
@@ -461,7 +461,7 @@ class LeCartShopify(LeBasecart):
 							with open(filename, encoding = encode) as f:
 								num_row = sum(1 for line in f) - 1
 								break
-						except:
+						except Exception:
 							continue
 
 					old_num_row = 0
@@ -3010,7 +3010,7 @@ class LeCartShopify(LeBasecart):
 						pro_res = self.api(f'variants/{item["variant_id"]}.json')
 						pro_data = json_decode(pro_res)
 						order_item['product']['id'] = pro_data['variant']['product_id']
-					except:
+					except Exception:
 						pass
 			order_item['qty'] = item['quantity']
 			if order_data.get('check_fulfill'):
@@ -4617,7 +4617,7 @@ class LeCartShopify(LeBasecart):
 				elif self._notice['src']['config'].get('auth') and main_image.get('url'):
 					try:
 						images = {'attachment': base64.b64encode(main_image['url'])}
-					except:
+					except Exception:
 						images = ''
 				else:
 					images = ''
@@ -4758,7 +4758,7 @@ class LeCartShopify(LeBasecart):
 	def image_exist(self, url, **kwargs):
 		try:
 			exist = requests.get(url, headers = {'User-agent': 'your bot 0.1'})
-		except:
+		except Exception:
 			return False
 		return exist.status_code == requests.codes.ok
 
@@ -4864,7 +4864,7 @@ class LeCartShopify(LeBasecart):
 				image_data = image_data.decode()
 				result['attachment'] = image_data
 				return result
-		except:
+		except Exception:
 			self.log(url, 'url_fail')
 
 		return None
@@ -4882,7 +4882,7 @@ class LeCartShopify(LeBasecart):
 			if timestamp:
 				return timestamp
 			return to_int(time.time())
-		except:
+		except Exception:
 			return to_int(time.time())
 
 
